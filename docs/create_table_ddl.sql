@@ -1,4 +1,3 @@
-CREATE DATABASE `todo`
 CREATE TABLE `todo` (
                         `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',
                         `task` varchar(500) NOT NULL COMMENT '任务名',
