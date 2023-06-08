@@ -85,9 +85,9 @@ func PrintToConsole(todos *model.ToDoSet) {
 			status = doneStatus
 		}
 
-		createAt = time.Unix(todo.CreateAt, 0).Format("2006-01-02 15:04:06")
+		createAt = time.Unix(todo.CreateAt, 0).Format("2006-01-02")
 		if todo.CompletedAt != 0 {
-			completedAt = time.Unix(todo.CompletedAt, 0).Format("2006-01-02 15:04:06")
+			completedAt = time.Unix(todo.CompletedAt, 0).Format("2006-01-02")
 		} else {
 			completedAt = ""
 		}
