@@ -9,7 +9,7 @@ var (
 )
 
 var RootCmd = &cobra.Command{
-	Use:   "todo",
+	Use:   "github.com/tanlay/todo",
 	Short: "命令行todo",
 	Long:  "命令行todo",
 }

@@ -2,14 +2,13 @@ package cmd
 
 import (
 	"context"
-	"fmt"
 	"github.com/spf13/cobra"
+	"github.com/tanlay/todo/config"
+	"github.com/tanlay/todo/pkg/constant"
+	"github.com/tanlay/todo/pkg/lib/db"
+	"github.com/tanlay/todo/pkg/model"
+	"github.com/tanlay/todo/pkg/service"
 	"go.uber.org/zap"
-	"todo/config"
-	"todo/pkg/constant"
-	"todo/pkg/lib/db"
-	"todo/pkg/model"
-	"todo/pkg/service"
 )
 
 func CreateCMD() *cobra.Command {
@@ -35,13 +34,7 @@ func CreateCMD() *cobra.Command {
 			req := model.NewCreateToDoRequest()
 			req.Task = task
 			req.Category = category
-
-			_, err := svc.CreateTodo(context.Background(), req)
-			if err != nil {
-				return err
-			} else {
-				return nil
-			}
+			return svc.CreateTodo(context.Background(), req)
 		},
 		PreRunE: func(cmd *cobra.Command, args []string) error {
 			return config.LoadConfigFromToml(cfgFile)
@@ -110,7 +103,6 @@ func QueryCMD() *cobra.Command {
 			req.Keyword = keyword
 			req.PageSize = pageSize
 			req.PageNum = pageNum
-			fmt.Println(req)
 
 			return svc.QueryToDo(context.Background(), req)
 		},

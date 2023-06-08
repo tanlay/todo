@@ -7,8 +7,8 @@ package table
 import (
 	"fmt"
 	"github.com/alexeyco/simpletable"
+	"github.com/tanlay/todo/pkg/model"
 	"time"
-	"todo/pkg/model"
 )
 
 //定义完成和未完成的符号
@@ -36,6 +36,10 @@ var (
 	completedAt string
 )
 
+var (
+	DateFormat = "2006-01-02"
+)
+
 func PrintOneToConsole(todo *model.ToDo) {
 	table := simpletable.New()
 	table.Header = &simpletable.Header{
@@ -49,9 +53,9 @@ func PrintOneToConsole(todo *model.ToDo) {
 		status = doneStatus
 	}
 
-	createAt = time.Unix(todo.CreateAt, 0).Format("2006-01-02")
+	createAt = time.Unix(todo.CreateAt, 0).Format(DateFormat)
 	if todo.CompletedAt != 0 {
-		completedAt = time.Unix(todo.CompletedAt, 0).Format("2006-01-02")
+		completedAt = time.Unix(todo.CompletedAt, 0).Format(DateFormat)
 	} else {
 		completedAt = ""
 	}
@@ -84,10 +88,9 @@ func PrintToConsole(todos *model.ToDoSet) {
 		} else {
 			status = doneStatus
 		}
-
-		createAt = time.Unix(todo.CreateAt, 0).Format("2006-01-02")
+		createAt = time.Unix(todo.CreateAt, 0).Format(DateFormat)
 		if todo.CompletedAt != 0 {
-			completedAt = time.Unix(todo.CompletedAt, 0).Format("2006-01-02")
+			completedAt = time.Unix(todo.CompletedAt, 0).Format(DateFormat)
 		} else {
 			completedAt = ""
 		}

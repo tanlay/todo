@@ -1,4 +1,4 @@
-module todo
+module github.com/tanlay/todo
 
 go 1.18
 

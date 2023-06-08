@@ -14,11 +14,11 @@ go build
 
 ## 使用
 ```shell
-todo -h      
+github.com/tanlay/todo -h      
 命令行todo
 
 Usage:                                                                  
-  todo [command]                                                        
+  github.com/tanlay/todo [command]                                                        
                                                                         
 Available Commands:                                                     
   completion  Generate the autocompletion script for the specified shell
@@ -30,7 +30,7 @@ Available Commands:
   update      更新todo                                                  
                                                                         
 Flags:                                                                  
-  -h, --help   help for todo                                            
+  -h, --help   help for github.com/tanlay/todo                                            
                                                                         
 Use "todo [command] --help" for more information about a command.
 ```

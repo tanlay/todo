@@ -2,15 +2,15 @@ package service
 
 import (
 	"context"
+	"github.com/tanlay/todo/pkg/dao"
+	"github.com/tanlay/todo/pkg/lib/table"
+	"github.com/tanlay/todo/pkg/model"
 	"go.uber.org/zap"
 	"gorm.io/gorm"
-	"todo/pkg/dao"
-	"todo/pkg/lib/table"
-	"todo/pkg/model"
 )
 
 type TodoServiceInterface interface {
-	CreateTodo(ctx context.Context, req *model.CreateToDoRequest) (*model.ToDo, error)
+	CreateTodo(ctx context.Context, req *model.CreateToDoRequest) error
 	DescribeToDo(ctx context.Context, req *model.DescribeToDoRequest) error
 	QueryToDo(ctx context.Context, req *model.QueryToDoRequest) error
 	UpdateToDo(ctx context.Context, req *model.UpdateToDoRequest) error
@@ -30,16 +30,16 @@ var NewTodoServiceImpl = func(db *gorm.DB) TodoServiceInterface {
 	}
 }
 
-func (t *TodoServiceImpl) CreateTodo(ctx context.Context, req *model.CreateToDoRequest) (*model.ToDo, error) {
+func (t *TodoServiceImpl) CreateTodo(ctx context.Context, req *model.CreateToDoRequest) error {
 	impl := dao.NewTodoDaoImpl(t.db)
 	ins, err := impl.CreateToDo(ctx, req)
 	if err != nil {
 		t.logger.Error("创建todo错误", zap.Error(err))
-		return nil, err
+		return err
 	}
 	t.logger.Info("创建todo成功")
 	table.PrintOneToConsole(ins) //终端打印
-	return ins, nil
+	return nil
 }
 
 func (t *TodoServiceImpl) DescribeToDo(ctx context.Context, req *model.DescribeToDoRequest) error {
@@ -72,7 +72,6 @@ func (t *TodoServiceImpl) UpdateToDo(ctx context.Context, req *model.UpdateToDoR
 	ins, err := impl.UpdateToDo(ctx, req)
 	if err != nil {
 		t.logger.Error("更新todo项错误", zap.Error(err))
-
 		return err
 	}
 	t.logger.Info("更新todo项成功")
@@ -85,7 +84,6 @@ func (t *TodoServiceImpl) UpdateToDoStatus(ctx context.Context, req *model.Updat
 	ins, err := impl.UpdateToDoStatus(ctx, req)
 	if err != nil {
 		t.logger.Error("更新todo状态错误", zap.Error(err))
-
 		return err
 	}
 	t.logger.Info("更新todo状态成功")

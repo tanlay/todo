@@ -1,8 +1,8 @@
 package cmd
 
 import (
-	"todo/config"
-	"todo/pkg/lib/db"
+	"github.com/tanlay/todo/config"
+	"github.com/tanlay/todo/pkg/lib/db"
 )
 
 func SetupGlobalDB(config config.Config) error {

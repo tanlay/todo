@@ -5,11 +5,11 @@
 package db
 
 import (
+	"github.com/tanlay/todo/config"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
 	"strings"
-	"todo/config"
 )
 
 var (
@@ -30,7 +30,6 @@ func GlobalWithDSN(conf config.DatabaseConf) (*gorm.DB, error) {
 		if err != nil {
 			return nil, err
 		}
-
 		sqlDB, err := db.DB()
 		if err != nil {
 			return nil, err

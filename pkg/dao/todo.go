@@ -5,11 +5,11 @@ import (
 	"errors"
 	"fmt"
 	"github.com/imdario/mergo"
+	"github.com/tanlay/todo/pkg/constant"
+	"github.com/tanlay/todo/pkg/model"
 	"go.uber.org/zap"
 	"gorm.io/gorm"
 	"time"
-	"todo/pkg/constant"
-	"todo/pkg/model"
 )
 
 type ToDoDaoInterface interface {
@@ -127,25 +127,27 @@ func (t *TodoDaoImpl) UpdateToDoStatus(ctx context.Context, req *model.UpdateToD
 	if err != nil {
 		return nil, err
 	}
-
+	//判断状态是预期状态
 	if ins.Status == req.Status {
-		t.logger.Error(fmt.Sprintf("该Todo已是期望状态: %d", req.Status))
-		return nil, errors.New(fmt.Sprintf("该Todo已是期望状态: %s", req.Status))
+		t.logger.Error(fmt.Sprintf("todo对象状态已是预期的状态: %d", ins.Status))
+		return nil, errors.New("todo对象状态已是预期的状态")
 
 	}
-	//修改状态为已完成
+	//修改状态
 	ins.Status = req.Status
 	if ins.Status == constant.StatusDone {
 		ins.CompletedAt = time.Now().Unix()
-	}
-	if ins.Status == constant.StatusDoing {
+	} else if ins.Status == constant.StatusDoing {
 		ins.CompletedAt = 0 //如果状态设置为doing，清除时间
+	} else {
+		t.logger.Error(fmt.Sprintf("不支持的状态: %d", req.Status))
+		return nil, errors.New("不支持的状态")
 	}
 	//入库保存
 	//if err := t.DB().WithContext(ctx).Updates(&ins).Error; err != nil { //Updates()不更新字段为0的字段
 	if err := t.DB().WithContext(ctx).Save(&ins).Error; err != nil {
-		t.logger.Error("更新Todo状态错误,", zap.Error(err))
-		return nil, err
+		t.logger.Error("更新todo对象状态失败", zap.Error(err))
+		return nil, errors.New("更新todo对象状态失败")
 	}
 	return ins, nil
 }

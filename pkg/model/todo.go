@@ -3,8 +3,8 @@ package model
 import (
 	"encoding/json"
 	"github.com/go-playground/validator/v10"
+	"github.com/tanlay/todo/pkg/constant"
 	"time"
-	"todo/pkg/constant"
 )
 
 var (
@@ -37,11 +37,6 @@ func (req *ToDoSet) String() string {
 	jd, _ := json.Marshal(req)
 	return string(jd)
 }
-
-//
-//func (t *ToDo) TableName() string {
-//	return "todo"
-//}
 
 type ToDoSet struct {
 	Total   int64   `json:"total"`
